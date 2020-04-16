@@ -1,0 +1,49 @@
+{
+  "name": "@nuxtjs/onesignal",
+  "version": "3.0.0",
+  "description": "OneSignal module for Nuxt.js",
+  "repository": "nuxt-community/onesignal-module",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "pooya parsa <pooya@pi0.ir>"
+    }
+  ],
+  "files": [
+    "lib",
+    "templates",
+    "dist"
+  ],
+  "main": "lib/module.js",
+  "scripts": {
+    "dev": "nuxt example",
+    "lint": "eslint --ext .js,.vue .",
+    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
+    "test": "yarn lint && jest"
+  },
+  "dependencies": {
+    "defu": "^1.0.0",
+    "hasha": "^5.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "latest",
+    "@babel/preset-env": "latest",
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "@nuxtjs/eslint-config": "latest",
+    "@nuxtjs/module-test-utils": "latest",
+    "@nuxtjs/pwa": "latest",
+    "babel-eslint": "latest",
+    "babel-jest": "latest",
+    "eslint": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "nuxt-edge": "latest",
+    "puppeteer": "latest",
+    "standard-version": "latest",
+    "tib": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
