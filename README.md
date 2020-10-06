@@ -10,7 +10,7 @@ OneSignal is a Free, high volume and reliable push notification service for webs
 
 ## Setup
 
-1. Follow steps to insall [pwa module](https://pwa.nuxtjs.org)
+1. Follow steps to install [pwa module](https://pwa.nuxtjs.org)
 
 2. Add `@nuxtjs/onesignal` dependency to your project
 
