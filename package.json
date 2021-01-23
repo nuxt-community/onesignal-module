@@ -9,39 +9,40 @@
       "name": "pooya parsa <pooya@pi0.ir>"
     }
   ],
+  "main": "dist/module.js",
   "files": [
-    "lib",
-    "templates",
-    "dist"
+    "dist",
+    "sdk"
   ],
-  "main": "lib/module.js",
   "scripts": {
-    "dev": "nuxt example",
-    "lint": "eslint --ext .js,.vue .",
+    "build": "siroc build && mkdist --src src/runtime --dist dist/runtime",
+    "dev": "nuxt test/fixture",
+    "format": "yarn lint --fix",
+    "lint": "eslint --ext .js,.ts,.vue .",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint && jest"
   },
   "dependencies": {
-    "defu": "^1.0.0",
+    "defu": "^3.2.2",
     "hasha": "^5.2.0"
   },
   "devDependencies": {
-    "@babel/core": "latest",
-    "@babel/preset-env": "latest",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-typescript": "^7.12.7",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
-    "@nuxtjs/eslint-config": "latest",
-    "@nuxtjs/module-test-utils": "latest",
-    "@nuxtjs/pwa": "latest",
-    "babel-eslint": "latest",
-    "babel-jest": "latest",
-    "eslint": "latest",
-    "husky": "latest",
-    "jest": "latest",
-    "nuxt-edge": "latest",
-    "puppeteer": "latest",
-    "standard-version": "latest",
-    "tib": "latest"
+    "@nuxt/test-utils": "^0.1.2",
+    "@nuxt/types": "^2.14.12",
+    "@nuxtjs/eslint-config-typescript": "^5.0.0",
+    "@nuxtjs/pwa": "^3.3.4",
+    "eslint": "^7.18.0",
+    "husky": "^4.3.8",
+    "jest": "^26.6.3",
+    "mkdist": "^0.1.1",
+    "nuxt-edge": "^2.15.0-26854632.498f8553",
+    "playwright": "^1.8.0",
+    "siroc": "^0.6.3",
+    "standard-version": "latest"
   },
   "publishConfig": {
     "access": "public"
