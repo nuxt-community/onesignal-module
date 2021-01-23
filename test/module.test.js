@@ -1,43 +1,128 @@
-import path from 'path'
-import { createBrowser } from 'tib'
-import { setup, build } from '@nuxtjs/module-test-utils'
-import onesignalModule from '..'
+import { setupTest, expectModuleToBeCalledWith, createPage } from '@nuxt/test-utils'
 
-const url = path => `http://localhost:3000${path}`
-
-describe('module', () => {
-  let nuxt, browser
-
-  beforeAll(async () => {
-    const nuxtConfig = {
-      rootDir: path.resolve(__dirname, '..', 'example'),
-      modules: [
-        onesignalModule,
-        '@nuxtjs/pwa'
-      ],
+describe('default configuration', () => {
+  setupTest({
+    testDir: __dirname,
+    fixture: 'fixture',
+    server: true,
+    config: {
       oneSignal: {
         init: {
           appId: 'd867ac26-f7be-4c62-9fdd-b756a33c4a8f'
         }
       }
     }
-
-    nuxt = (await setup(nuxtConfig)).nuxt
-    await build(nuxt)
-    await nuxt.listen(3000)
-
-    browser = await createBrowser('puppeteer')
-  }, 60000)
-
-  afterAll(async () => {
-    await nuxt.close()
-    await browser.close()
   })
 
-  test('$OneSignal', async () => {
-    const page = await browser.page(url('/'))
-    const $OneSignal = await page.runScript(() => window.$nuxt.$OneSignal)
-    expect($OneSignal).toBeDefined()
-    expect($OneSignal.length).toBe(1)
+  test('should inject plugin', () => {
+    expectModuleToBeCalledWith('addPlugin', expect.objectContaining({
+      fileName: 'onesignal.js'
+    }))
+  })
+})
+
+describe('spa configuration', () => {
+  setupTest({
+    testDir: __dirname,
+    fixture: 'fixture',
+    server: true,
+    config: {
+      mode: 'spa',
+      oneSignal: {
+        init: {
+          appId: 'd867ac26-f7be-4c62-9fdd-b756a33c4a8f'
+        }
+      }
+    }
+  })
+})
+
+describe('default one signal sdk', () => {
+  setupTest({
+    testDir: __dirname,
+    fixture: 'fixture',
+    server: true,
+    config: {
+      mode: 'spa',
+      oneSignal: {
+        cdn: false,
+        init: {
+          appId: 'd867ac26-f7be-4c62-9fdd-b756a33c4a8f'
+        }
+      }
+    }
+  })
+})
+
+describe('define onesignal script into head section', () => {
+  setupTest({
+    testDir: __dirname,
+    fixture: 'fixture',
+    server: true,
+    config: {
+      head: {
+        script: [
+          { hid: 'onesignal', name: 'One signal script', src: 'https://cdn.onesignal.com/sdks/OneSignalSDK.js' }
+        ]
+      },
+      oneSignal: {
+        cdn: false,
+        init: {
+          appId: 'd867ac26-f7be-4c62-9fdd-b756a33c4a8f'
+        }
+      }
+    }
+  })
+})
+
+describe('define build public path', () => {
+  setupTest({
+    testDir: __dirname,
+    fixture: 'fixture',
+    server: true,
+    build: {
+      publicPath: '/_onesignal/'
+    },
+    config: {
+      oneSignal: {
+        cdn: false,
+        init: {
+          appId: 'd867ac26-f7be-4c62-9fdd-b756a33c4a8f'
+        }
+      }
+    }
+  })
+})
+
+describe('define onesignal manifest', () => {
+  setupTest({
+    testDir: __dirname,
+    fixture: 'fixture',
+    server: true,
+    config: {
+      oneSignal: {
+        manifest: {
+          name: 'Awesome website'
+        },
+        cdn: false,
+        init: {
+          appId: 'd867ac26-f7be-4c62-9fdd-b756a33c4a8f'
+        }
+      }
+    }
+  })
+})
+
+describe('browser', () => {
+  setupTest({
+    testDir: __dirname,
+    fixture: 'fixture',
+    browser: true
+  })
+
+  test('should render index page', async () => {
+    const page = await createPage('/')
+    const body = await page.innerHTML('body')
+    expect(body).toContain('Works!')
   })
 })

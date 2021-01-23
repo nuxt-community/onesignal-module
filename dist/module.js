@@ -13,15 +13,24 @@ const hasha2__default = /*#__PURE__*/_interopDefaultLegacy(hasha2);
 const moduleDefaults = {
   OneSignalSDK: void 0,
   cdn: true,
-  GcmSenderId: "482941778795",
   importScripts: [
     "/sw.js?" + Date.now()
   ],
+  manifest: {
+    name: "",
+    short_name: "",
+    start_url: "/",
+    display: "standalone",
+    gcm_sender_id: "482941778795"
+  },
   init: {
     allowLocalhostAsSecureOrigin: true,
     welcomeNotification: {
       disable: true
     }
+  },
+  workbox: {
+    swURL: "OneSignalSDKWorker.js"
   }
 };
 
@@ -90,10 +99,7 @@ function addOneSignal(moduleOptions) {
       hid: "onesignal"
     });
   }
-  if (!nuxt.options.manifest) {
-    nuxt.options.manifest = {};
-  }
-  nuxt.options.manifest.gcm_sender_id = options2.GcmSenderId;
+  nuxt.options.manifest = options2.manifest;
   if (!nuxt.options.workbox) {
     nuxt.options.workbox = {};
   }

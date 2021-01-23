@@ -7,7 +7,7 @@ import { getRouteParams, joinUrl } from './utils'
 import './types'
 
 // https://github.com/OneSignal/OneSignal-Website-SDK
-function oneSignalModule (moduleOptions: ModuleOptions) {
+function oneSignalModule (moduleOptions) {
   const { nuxt } = this
 
   const hook = () => {
@@ -21,7 +21,7 @@ function oneSignalModule (moduleOptions: ModuleOptions) {
   nuxt.hook('build:before', hook)
 }
 
-function addOneSignal (moduleOptions: ModuleOptions) {
+function addOneSignal (moduleOptions) {
   const { nuxt, addPlugin } = this
   const { publicPath } = getRouteParams(nuxt.options)
 
@@ -33,6 +33,7 @@ function addOneSignal (moduleOptions: ModuleOptions) {
   )
 
   // Define oneSignalSDK usage
+  /* istanbul ignore next */
   if (options.OneSignalSDK === undefined) {
     if (options.cdn) {
       // Use OneSignalSDK.js from CDN
@@ -46,8 +47,8 @@ function addOneSignal (moduleOptions: ModuleOptions) {
       options.OneSignalSDK = joinUrl(publicPath, OneSignalSDKFile)
 
       nuxt.options.build.plugins.push({
-        apply (compiler) {
-          compiler.hooks.emit.tap('nuxt-pwa-onesignal', (compilation) => {
+        apply (compiler: any) {
+          compiler.hooks.emit.tap('nuxt-pwa-onesignal', (compilation: any) => {
             compilation.assets[OneSignalSDKFile] = {
               source: () => OneSignalSDKJS,
               size: () => OneSignalSDKJS.length
@@ -68,16 +69,10 @@ function addOneSignal (moduleOptions: ModuleOptions) {
   }
 
   // Adjust manifest for oneSignal
-  if (!nuxt.options.manifest) {
-    nuxt.options.manifest = {}
-  }
-  nuxt.options.manifest.gcm_sender_id = options.GcmSenderId
+  nuxt.options.manifest = options.manifest
 
   // Adjust swURL option of Workbox for oneSignal
-  if (!nuxt.options.workbox) {
-    nuxt.options.workbox = {}
-  }
-  nuxt.options.workbox.swURL = 'OneSignalSDKWorker.js'
+  nuxt.options.workbox = options.workbox
 
   // Provide OneSignalSDKWorker.js and OneSignalSDKUpdaterWorker.js
   const makeSW = (name: string, scripts: Array<String>) => {
@@ -85,7 +80,7 @@ function addOneSignal (moduleOptions: ModuleOptions) {
     writeFileSync(resolve(nuxt.options.srcDir, 'static', name), workerScript, 'utf-8')
   }
 
-  makeSW('OneSignalSDKWorker.js', [].concat(options.importScripts || []).concat(options.OneSignalSDK))
+  makeSW('OneSignalSDKWorker.js', [].concat(options.importScripts).concat(options.OneSignalSDK))
   makeSW('OneSignalSDKUpdaterWorker.js', [options.OneSignalSDK])
 
   // Add OneSignal plugin
