@@ -84,6 +84,25 @@ oneSignal: {
 }
 ```
 
+## Change Worker Path and Scope
+
+By default OneSignal expects you to put `OneSignalSDKWorker.js` in the root of your website (nuxt static folder). In case you're already using `@nuxt/pwa` with the `workbox` module, you already should have a service worker there. Two workers can't have the same path and scope.
+
+That is why this module puts `OneSignalSDKWorker.js` into the `_push_/onesignal` folder with the same scope. You can use options to customize path, scope, and filenames.
+
+```js
+oneSignal: {
+  path: '_push_/onesignal/',
+  workerFile: 'OneSignalSDKWorker.js',
+  updaterFile: 'OneSignalSDKUpdaterWorker.js',
+  swParams: {
+    scope: '_push_/onesignal/'
+  }
+}
+```
+
+Be sure to use the same settings in OneSignal. See [Service Worker Customizations (path and scope)](https://documentation.onesignal.com/docs/onesignal-service-worker-faq#sdk-parameter-reference-for-service-workers)
+
 ## References
 
 - [Web Push SDK Reference](https://documentation.onesignal.com/docs/web-push-sdk) - Available options and API calls
@@ -91,6 +110,7 @@ oneSignal: {
 - [Thanks for Subscribing Notifications](https://documentation.onesignal.com/docs/welcome-notifications)
 - [Product overview](https://documentation.onesignal.com/docs/product-overview) - More info about OneSignal
 - [Web Push SDK Setup](https://documentation.onesignal.com/docs/web-push-sdk-setup-https) - Setup guides for in-depth reading what this modules does.
+- [Service Worker Customizations (path and scope)](https://documentation.onesignal.com/docs/onesignal-service-worker-faq#sdk-parameter-reference-for-service-workers)
 
 ## License
 
