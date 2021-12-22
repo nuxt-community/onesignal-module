@@ -86,17 +86,17 @@ oneSignal: {
 
 ## Change Worker Path and Scope
 
-By default OneSignal expects you to put `OneSignalSDKWorker.js` in the root of your website (nuxt static folder). In case you're already using `@nuxt/pwa` with the `workbox` module, you already should have a service worker there. Two workers can't have the same path and scope.
+By default OneSignal expects you to put `OneSignalSDKWorker.js` in the root of your website (nuxt static folder). In case you're already using `@nuxt/pwa` with the `workbox` module, you already should have a service worker there. Two workers can't have the same scope.
 
-That is why this module puts `OneSignalSDKWorker.js` into the `_push_/onesignal` folder with the same scope. You can use options to customize path, scope, and filenames.
+That is why this module changes the scope of `OneSignalSDKWorker.js` to `/_push_/onesignal/`. You can use options to customize path, scope, and filenames.
 
 ```js
 oneSignal: {
-  path: '_push_/onesignal/',
+  filesPath: '', // set to your path if you put worker files into a subdir, for example '/_push_/onesignal/'
   workerFile: 'OneSignalSDKWorker.js',
   updaterFile: 'OneSignalSDKUpdaterWorker.js',
   swParams: {
-    scope: '_push_/onesignal/'
+    scope: '/_push_/onesignal/' // set to an empty string ('') if you want OneSignal to be your main worker
   }
 }
 ```

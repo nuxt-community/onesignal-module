@@ -4,7 +4,7 @@ import { setup, build } from '@nuxtjs/module-test-utils'
 import onesignalModule from '..'
 
 const url = path => `http://localhost:3000${path}`
-const testPath = '__pu__/os/'
+const testPath = '/__pu__/os/'
 const testWorkerFile = 'osw.js'
 const testUpdaterFile = 'osu.js'
 
@@ -22,7 +22,7 @@ describe('module', () => {
         init: {
           appId: 'd867ac26-f7be-4c62-9fdd-b756a33c4a8f'
         },
-        path: testPath,
+        filesPath: testPath,
         workerFile: testWorkerFile,
         updaterFile: testUpdaterFile
       }
