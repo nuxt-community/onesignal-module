@@ -1,14 +1,15 @@
 import { posix as path } from 'path'
+import { NuxtOptions } from '@nuxt/types'
 
-export function joinUrl (...args) {
+export function joinUrl (...args: string[]) {
   return path.join(...args).replace(':/', '://')
 }
 
-export function isUrl (url) {
+export function isUrl (url: string) {
   return url.indexOf('http') === 0 || url.indexOf('//') === 0
 }
 
-export function getRouteParams (options) {
+export function getRouteParams (options: NuxtOptions) {
   // routerBase
   const routerBase = options.router.base
 
