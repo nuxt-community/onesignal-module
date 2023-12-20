@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "defu": "^3.2.2",
-    "hasha": "^5.2.0"
+    "hasha": "^6.0.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.12.11",
