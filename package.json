@@ -23,7 +23,7 @@
     "test": "yarn lint && jest"
   },
   "dependencies": {
-    "defu": "^3.2.2",
+    "defu": "^6.1.4",
     "hasha": "^5.2.0"
   },
   "devDependencies": {
